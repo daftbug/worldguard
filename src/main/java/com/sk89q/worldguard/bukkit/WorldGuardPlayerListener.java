@@ -159,8 +159,8 @@ public class WorldGuardPlayerListener implements Listener {
 
                     String greeting = set.getFlag(DefaultFlag.GREET_MESSAGE);//, localPlayer);
                     String farewell = set.getFlag(DefaultFlag.FAREWELL_MESSAGE);//, localPlayer);
-                    Boolean notifyEnter = set.getFlag(DefaultFlag.NOTIFY_ENTER);//, localPlayer);
-                    Boolean notifyLeave = set.getFlag(DefaultFlag.NOTIFY_LEAVE);//, localPlayer);
+                    String notifyEnter = set.getFlag(DefaultFlag.NOTIFY_ENTER);//, localPlayer);
+                    String notifyLeave = set.getFlag(DefaultFlag.NOTIFY_LEAVE);//, localPlayer);
                     GameMode gameMode = set.getFlag(DefaultFlag.GAME_MODE);
 
                     if (state.lastFarewell != null && (farewell == null
@@ -168,7 +168,7 @@ public class WorldGuardPlayerListener implements Listener {
                         String replacedFarewell = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(state.lastFarewell));
                         for (String line : replacedFarewell.split("\n")) {
-                            plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
+                            player.sendMessage(ChatColor.AQUA + " ** " + line);
                         }
                     }
 
@@ -177,15 +177,16 @@ public class WorldGuardPlayerListener implements Listener {
                         String replacedGreeting = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(greeting));
                         for (String line : replacedGreeting.split("\n")) {
-                            plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
+                            player.sendMessage(ChatColor.AQUA + " ** " + line);
                         }
                     }
 
                     if ((notifyLeave == null || !notifyLeave)
                             && state.notifiedForLeave != null && state.notifiedForLeave) {
-                        plugin.broadcastNotification(ChatColor.GRAY + "WG: "
-                                + ChatColor.LIGHT_PURPLE + player.getName()
-                                + ChatColor.GOLD + " left NOTIFY region");
+                        String replacedNotifyLeave = plugin.replaceMacros(
+                                player, BukkitUtil.replaceColorMacros(notifyLeave));
+                       	for (String line : replacedNotifyLeave.split("\n")) {
+                        plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
                     }
 
                     if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
@@ -199,11 +200,10 @@ public class WorldGuardPlayerListener implements Listener {
                             regionList.append(region.getId());
                         }
 
-                        plugin.broadcastNotification(ChatColor.GRAY + "WG: "
-                                + ChatColor.LIGHT_PURPLE + player.getName()
-                                + ChatColor.GOLD + " entered NOTIFY region: "
-                                + ChatColor.WHITE
-                                + regionList);
+                        String replacedNotifyEnter = plugin.replaceMacros(
+                                player, BukkitUtil.replaceColorMacros(notifyEnter));
+                       	for (String line : replacedNotifyEnter.split("\n")) {
+                        plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
                     }
 
                     if (gameMode != null) {
