@@ -188,7 +188,8 @@ public class WorldGuardPlayerListener implements Listener {
                                 player, BukkitUtil.replaceColorMacros(notifyLeave));
                        	for (String line : replacedNotifyLeave.split("\n")) {
                         plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
-                    }
+						}
+					}
 
                     if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
                             || !state.notifiedForEnter)) {
@@ -205,7 +206,8 @@ public class WorldGuardPlayerListener implements Listener {
                                 player, BukkitUtil.replaceColorMacros(notifyEnter));
                        	for (String line : replacedNotifyEnter.split("\n")) {
                         plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
-                    }
+						}
+					}
 
                     if (gameMode != null) {
                         if (player.getGameMode() != gameMode) {
