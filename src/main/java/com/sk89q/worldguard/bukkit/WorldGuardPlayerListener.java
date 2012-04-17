@@ -53,7 +53,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.Server.broadcastMessage;
+import org.bukkit.util.permissions.BroadcastPermissions;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BlockType;
@@ -194,7 +194,7 @@ public class WorldGuardPlayerListener implements Listener {
                          String replacedFarewell = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(state.lastFarewell));
                         for (String line : replacedFarewell.split("\n")) {
-                            plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
+                            bukkit.broadcast(ChatColor.AQUA + " ** " + line);
                         }	
                         	
                         }
@@ -222,7 +222,7 @@ public class WorldGuardPlayerListener implements Listener {
                          String replacedGreeting = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(greeting));
                         for (String line : replacedGreeting.split("\n")) {
-                             plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
+                             bukkit.broadcast(ChatColor.AQUA + " ** " + line);
                         }	
                         }
                        
