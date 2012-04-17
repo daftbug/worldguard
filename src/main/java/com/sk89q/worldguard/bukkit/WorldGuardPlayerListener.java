@@ -160,8 +160,8 @@ public class WorldGuardPlayerListener implements Listener {
 
                     String greeting = set.getFlag(DefaultFlag.GREET_MESSAGE);//, localPlayer);
                     String farewell = set.getFlag(DefaultFlag.FAREWELL_MESSAGE);//, localPlayer);
-                    String notifyEnter = set.getFlag(DefaultFlag.NOTIFY_ENTER);//, localPlayer);
-                    String notifyLeave = set.getFlag(DefaultFlag.NOTIFY_LEAVE);//, localPlayer);
+                    Boolean notifyEnter = set.getFlag(DefaultFlag.NOTIFY_ENTER);//, localPlayer);
+                    Boolean notifyLeave = set.getFlag(DefaultFlag.NOTIFY_LEAVE);//, localPlayer);
                     GameMode gameMode = set.getFlag(DefaultFlag.GAME_MODE);
 
                     if (state.lastFarewell != null && (farewell == null
@@ -181,16 +181,24 @@ public class WorldGuardPlayerListener implements Listener {
                             player.sendMessage(ChatColor.AQUA + " ** " + line);
                         }
                     }
-
                     if ((notifyLeave == null || !notifyLeave)
                             && state.notifiedForLeave != null && state.notifiedForLeave) {
-                        String replacedNotifyLeave = plugin.replaceMacros(
-                                player, BukkitUtil.replaceColorMacros(notifyLeave));
-                       	for (String line : replacedNotifyLeave.split("\n")) {
-                        plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
-						}
-					}
-
+                        if(farewell == null)
+                        {
+                        plugin.broadcastNotification(ChatColor.GRAY + "WG: "
+                                + ChatColor.LIGHT_PURPLE + player.getName()
+                                + ChatColor.GOLD + " left NOTIFY region");
+                        }
+                        else
+                        {
+                         String replacedFarewell = plugin.replaceMacros(
+                                player, BukkitUtil.replaceColorMacros(state.lastFarewell));
+                        for (String line : replacedFarewell.split("\n")) {
+                            plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
+                        }	
+                        	
+                        }
+                    }
                     if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
                             || !state.notifiedForEnter)) {
                         StringBuilder regionList = new StringBuilder();
@@ -201,13 +209,24 @@ public class WorldGuardPlayerListener implements Listener {
                             }
                             regionList.append(region.getId());
                         }
-
-                        String replacedNotifyEnter = plugin.replaceMacros(
-                                player, BukkitUtil.replaceColorMacros(notifyEnter));
-                       	for (String line : replacedNotifyEnter.split("\n")) {
-                        plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
-						}
-					}
+                        if(greeting == null)
+                        { 
+                        	plugin.broadcastNotification(ChatColor.GRAY + "WG: "
+                                + ChatColor.LIGHT_PURPLE + player.getName()
+                                + ChatColor.GOLD + " entered NOTIFY region: "
+                                + ChatColor.WHITE
+                                + regionList);
+                        }
+                        else
+                        {
+                         String replacedGreeting = plugin.replaceMacros(
+                                player, BukkitUtil.replaceColorMacros(greeting));
+                        for (String line : replacedGreeting.split("\n")) {
+                             plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
+                        }	
+                        }
+                       
+                    }
 
                     if (gameMode != null) {
                         if (player.getGameMode() != gameMode) {
