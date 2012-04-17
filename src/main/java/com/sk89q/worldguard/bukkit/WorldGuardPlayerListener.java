@@ -194,7 +194,7 @@ public class WorldGuardPlayerListener implements Listener {
                          String replacedFarewell = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(state.lastFarewell));
                         for (String line : replacedFarewell.split("\n")) {
-                            bukkit.broadcast(ChatColor.AQUA + " ** " + line);
+                            broadcast(ChatColor.AQUA + " ** " + line);
                         }	
                         	
                         }
@@ -222,7 +222,7 @@ public class WorldGuardPlayerListener implements Listener {
                          String replacedGreeting = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(greeting));
                         for (String line : replacedGreeting.split("\n")) {
-                             bukkit.broadcast(ChatColor.AQUA + " ** " + line);
+                             broadcast(ChatColor.AQUA + " ** " + line);
                         }	
                         }
                        
