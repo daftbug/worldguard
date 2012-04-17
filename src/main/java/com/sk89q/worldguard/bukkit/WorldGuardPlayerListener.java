@@ -53,7 +53,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.Bukkit.broadcastMessage;
+import org.bukkit.Server.broadcastMessage;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BlockType;
