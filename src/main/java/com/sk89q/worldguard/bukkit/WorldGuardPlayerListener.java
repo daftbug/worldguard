@@ -53,6 +53,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.Bukkit.broadcastMessage;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BlockType;
@@ -186,7 +187,7 @@ public class WorldGuardPlayerListener implements Listener {
                         String replacedNotifyLeave = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(notifyLeave));
                        	for (String line : replacedNotifyLeave.split("\n")) {
-                        plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
+                        plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
                     }
 
                     if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
@@ -203,7 +204,7 @@ public class WorldGuardPlayerListener implements Listener {
                         String replacedNotifyEnter = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(notifyEnter));
                        	for (String line : replacedNotifyEnter.split("\n")) {
-                        plugin.broadcastNotification(ChatColor.AQUA + " ** " + line);
+                        plugin.broadcastMessage(ChatColor.AQUA + " ** " + line);
                     }
 
                     if (gameMode != null) {
