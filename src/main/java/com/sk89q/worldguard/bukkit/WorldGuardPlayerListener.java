@@ -27,6 +27,7 @@ import com.sk89q.worldedit.blocks.ItemID;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -54,6 +55,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.permissions.BroadcastPermissions;
+import org.bukkit.command.CommandSender;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BlockType;
@@ -168,64 +170,41 @@ public class WorldGuardPlayerListener implements Listener {
                             || !state.lastFarewell.equals(farewell))) {
                         String replacedFarewell = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(state.lastFarewell));
-                        for (String line : replacedFarewell.split("\n")) {
-                            player.sendMessage(ChatColor.AQUA + " ** " + line);
-                        }
+						if ((notifyLeave == null || !notifyLeave)
+                            && state.notifiedForLeave != null && state.notifiedForLeave) {
+							for (String line : replacedFarewell.split("\n")) {
+								for (Player player2 : plugin.getServer().getOnlinePlayers()) {
+									 player2.sendMessage(ChatColor.AQUA + " ** " + line);
+									 }
+								}
+							}
+						else
+						{
+							for (String line : replacedFarewell.split("\n")) {
+								player.sendMessage(ChatColor.AQUA + " ** " + line);
+							}
+						}
                     }
 
                     if (greeting != null && (state.lastGreeting == null
                             || !state.lastGreeting.equals(greeting))) {
                         String replacedGreeting = plugin.replaceMacros(
                                 player, BukkitUtil.replaceColorMacros(greeting));
-                        for (String line : replacedGreeting.split("\n")) {
-                            player.sendMessage(ChatColor.AQUA + " ** " + line);
-                        }
-                    }
-                    if ((notifyLeave == null || !notifyLeave)
-                            && state.notifiedForLeave != null && state.notifiedForLeave) {
-                        if(farewell == null)
-                        {
-                        plugin.broadcastNotification(ChatColor.GRAY + "WG: "
-                                + ChatColor.LIGHT_PURPLE + player.getName()
-                                + ChatColor.GOLD + " left NOTIFY region");
-                        }
-                        else
-                        {
-                         String replacedFarewell = plugin.replaceMacros(
-                                player, BukkitUtil.replaceColorMacros(state.lastFarewell));
-                        for (String line : replacedFarewell.split("\n")) {
-                            broadcast(ChatColor.AQUA + " ** " + line);
-                        }	
-                        	
-                        }
-                    }
-                    if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
+                        
+						if (notifyEnter != null && notifyEnter && (state.notifiedForEnter == null
                             || !state.notifiedForEnter)) {
-                        StringBuilder regionList = new StringBuilder();
-
-                        for (ProtectedRegion region : set) {
-                            if (regionList.length() != 0) {
-                                regionList.append(", ");
-                            }
-                            regionList.append(region.getId());
-                        }
-                        if(greeting == null)
-                        { 
-                        	plugin.broadcastNotification(ChatColor.GRAY + "WG: "
-                                + ChatColor.LIGHT_PURPLE + player.getName()
-                                + ChatColor.GOLD + " entered NOTIFY region: "
-                                + ChatColor.WHITE
-                                + regionList);
-                        }
-                        else
-                        {
-                         String replacedGreeting = plugin.replaceMacros(
-                                player, BukkitUtil.replaceColorMacros(greeting));
-                        for (String line : replacedGreeting.split("\n")) {
-                             broadcast(ChatColor.AQUA + " ** " + line);
-                        }	
-                        }
-                       
+							for (String line : replacedGreeting.split("\n")) {
+							   for (Player player2 : plugin.getServer().getOnlinePlayers()) {
+									 player2.sendMessage(ChatColor.AQUA + " ** " + line);
+									 }
+							}
+						}
+						else
+						{
+							for (String line : replacedGreeting.split("\n")) {
+							player.sendMessage(ChatColor.AQUA + " ** " + line);
+							}
+						}
                     }
 
                     if (gameMode != null) {
